@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 /* Sealed classes are used to restrict the users from inheriting the class.
  * A class can be sealed by using the sealed keyword.
@@ -28,6 +29,7 @@ public sealed class GameEnvironment
             {
                 instance = new GameEnvironment();
                 instance.CheckPoints.AddRange(GameObject.FindGameObjectsWithTag("Checkpoint"));
+                instance.checkPoints = instance.checkPoints.OrderBy(waypoint => waypoint.name).ToList();
             }
             return instance;
         }

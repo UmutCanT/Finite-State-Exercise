@@ -19,11 +19,11 @@ public class Idle : State
 
     public override void Update()
     {
-        if (Random.Range(0, 100) < 100)
+        if (Random.Range(0, 100) < 10)
         {
             nextState = new Patrol(npc, agent, anim, player);
+            stage = EVENT.EXIT;
         }
-        base.Update();
     }
 
     public override void Exit()

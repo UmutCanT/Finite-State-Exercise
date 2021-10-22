@@ -7,7 +7,7 @@ public class State
 {
     public enum STATE
     {
-        IDLE, PATROL, PURSUE, ATTACK, SLEEP
+        IDLE, PATROL, PURSUE, ATTACK, SAFE
     }
 
     public enum EVENT
@@ -26,6 +26,8 @@ public class State
     float visDistance = 10.0f;
     float visAngle = 30.0f;
     float shootDistance = 7.0f;
+    float dangerSenseAngle = 30.0f;
+    float dangerSenseDis = 2.0f;
 
     public State(GameObject npcObj, NavMeshAgent navAgent, Animator animator, Transform playerTran)
     {
@@ -71,5 +73,42 @@ public class State
         }
 
         return this;
+    }
+
+    public bool CanSeePlayer()
+    {
+        if (DirectionOfPlayer().magnitude <= visDistance && AngleOfPlayer(DirectionOfPlayer()) <= visAngle)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool CanAttackPlayer()
+    {
+        if (DirectionOfPlayer().magnitude < shootDistance)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public bool CanSenseDanger()
+    {
+        if (DirectionOfPlayer().magnitude <= dangerSenseDis && AngleOfPlayer(-DirectionOfPlayer()) <= dangerSenseAngle)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    protected Vector3 DirectionOfPlayer()
+    {
+        return (player.position - npc.transform.position);
+    }
+
+    protected float AngleOfPlayer(Vector3 direction)
+    {
+        return Vector3.Angle(direction, npc.transform.forward);
     }
 }

@@ -12,12 +12,21 @@ public sealed class GameEnvironment
 {
     private static GameEnvironment instance;
     private List<GameObject> checkPoints = new List<GameObject>();
+    private GameObject safeZone;
 
     public List<GameObject> CheckPoints
     {
         get
         {
             return checkPoints;
+        }
+    }
+
+    public GameObject SafeZone
+    {
+        get
+        {
+            return safeZone;
         }
     }
 
@@ -28,6 +37,7 @@ public sealed class GameEnvironment
             if(instance == null)
             {
                 instance = new GameEnvironment();
+                instance.safeZone = GameObject.FindGameObjectWithTag("Safe");
                 instance.CheckPoints.AddRange(GameObject.FindGameObjectsWithTag("Checkpoint"));
                 instance.checkPoints = instance.checkPoints.OrderBy(waypoint => waypoint.name).ToList();
             }
